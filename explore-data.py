@@ -10,7 +10,7 @@ def print_sep():
     print('\n--------------------------------------------------------\n')
 
 
-def hist_per_col(data, col):
+def hist_per_col(data, col, prefix):
     plt.figure(figsize=(10, 5))
     sns.histplot(data[col], bins=50, color='red', alpha=0.5)
 
@@ -18,7 +18,7 @@ def hist_per_col(data, col):
     plt.xlabel('Montant des ' + col)
     plt.ylabel('Nombre de clients')
 
-    plt.savefig('fig/hist-col-' + col.lower())
+    plt.savefig('fig/hist-col-' + prefix + col.lower())
     plt.close()
 
 
@@ -33,6 +33,37 @@ def cat_per_col(data, col):
         categories.append(str(cat))
 
     print(f'Valeurs presentes: {', '.join(categories)}')
+
+
+def pca(data, numerical_cols, name):
+    scaler = StandardScaler()
+    df_scaled = scaler.fit_transform(data[numerical_cols])
+
+    pca = PCA(n_components=2)
+    pca_result = pca.fit_transform(df_scaled)
+
+    df_pca = pd.DataFrame(pca_result, columns=['PC1', 'PC2'])
+
+    print('Variance expliquée par chaque composante :', pca.explained_variance_ratio_)
+
+    plt.figure(figsize=(8, 6))
+    sns.scatterplot(x=df_pca["PC1"], y=df_pca["PC2"], alpha=0.5)
+    plt.xlabel('Première composante principale (PC1)')
+    plt.ylabel('Deuxième composante principale (PC2)')
+    plt.title('Projection des données sur les deux premières composantes')
+    plt.savefig('fig/pca-' + name)
+    plt.close()
+
+    pca = PCA()
+    pca.fit(df_scaled)
+
+    plt.figure(figsize=(8, 5))
+    plt.plot(range(1, len(numerical_cols) + 1), np.cumsum(pca.explained_variance_ratio_), marker='o', linestyle='--')
+    plt.xlabel('Nombre de composantes')
+    plt.ylabel('Variance expliquée cumulée')
+    plt.title('Scree plot - Choix du nombre de composantes')
+    plt.savefig('fig/pca-var-cum-' + name)
+    plt.close()
 
 
 if __name__ == '__main__':
@@ -71,9 +102,9 @@ if __name__ == '__main__':
     print()
     cat_per_col(demissionaires, 'CDCATCL')
 
-    hist_per_col(demissionaires, 'AGEDEM')
-    hist_per_col(demissionaires, 'ADH')
-    hist_per_col(demissionaires, 'ANNEEDEM')
+    hist_per_col(demissionaires, 'AGEDEM', 'dem-')
+    hist_per_col(demissionaires, 'ADH', 'dem-')
+    hist_per_col(demissionaires, 'ANNEEDEM', 'dem-')
 
     print_sep()
 
@@ -83,31 +114,16 @@ if __name__ == '__main__':
 
     numerical_cols = ['MTREV', 'NBENF', 'AGEAD', 'AGEDEM', 'ADH']
     numerical_cols_demissionaires = demissionaires[numerical_cols].dropna()
-    scaler = StandardScaler()
-    df_scaled = scaler.fit_transform(numerical_cols_demissionaires)
 
-    pca = PCA(n_components=2)
-    pca_result = pca.fit_transform(df_scaled)
+    pca(demissionaires, numerical_cols, 'dem')
 
-    df_pca = pd.DataFrame(pca_result, columns=['PC1', 'PC2'])
+    print_sep()
 
-    print('Variance expliquée par chaque composante :', pca.explained_variance_ratio_)
+    societaire_cat_cols = ['CDSEXE', 'CDSITFAM', 'CDTMT', 'CDMOTDEM', 'CDCATCL']
 
-    plt.figure(figsize=(8, 6))
-    sns.scatterplot(x=df_pca["PC1"], y=df_pca["PC2"], alpha=0.5)
-    plt.xlabel('Première composante principale (PC1)')
-    plt.ylabel('Deuxième composante principale (PC2)')
-    plt.title('Projection des données sur les deux premières composantes')
-    plt.savefig('fig/pca')
-    plt.close()
+    for societaire_cat_col in societaire_cat_cols:
+        cat_per_col(societaires, societaire_cat_col)
+        print_sep()
 
-    pca = PCA()
-    pca.fit(df_scaled)
-
-    plt.figure(figsize=(8, 5))
-    plt.plot(range(1, len(numerical_cols) + 1), np.cumsum(pca.explained_variance_ratio_), marker='o', linestyle='--')
-    plt.xlabel('Nombre de composantes')
-    plt.ylabel('Variance expliquée cumulée')
-    plt.title('Scree plot - Choix du nombre de composantes')
-    plt.savefig('fig/pca-var-cum')
-    plt.close()
+    hist_per_col(societaires, 'MTREV', 'soc-')
+    hist_per_col(societaires, 'NBENF', 'soc-')

@@ -38,4 +38,3 @@ Societaires
 | CDCATCL  | Type de client (catégorie)                             |
 | BPADH    | Signification inconnue                                 |
 | DTDEM    | Date de démission, ou 31/12/1900 si non-démissionnaire |
-

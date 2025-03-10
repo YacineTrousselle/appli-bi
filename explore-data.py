@@ -112,13 +112,6 @@ if __name__ == '__main__':
 
     print_sep()
 
-    numerical_cols = ['MTREV', 'NBENF', 'AGEAD', 'AGEDEM', 'ADH']
-    numerical_cols_demissionaires = demissionaires[numerical_cols].dropna()
-
-    pca(demissionaires, numerical_cols, 'dem')
-
-    print_sep()
-
     societaire_cat_cols = ['CDSEXE', 'CDSITFAM', 'CDTMT', 'CDMOTDEM', 'CDCATCL']
 
     for societaire_cat_col in societaire_cat_cols:
@@ -127,3 +120,6 @@ if __name__ == '__main__':
 
     hist_per_col(societaires, 'MTREV', 'soc-')
     hist_per_col(societaires, 'NBENF', 'soc-')
+
+    numerical_dem_cols = ['MTREV', 'NBENF', 'AGEAD', 'AGEDEM', 'ADH']
+    pca(demissionaires, numerical_dem_cols, 'dem')

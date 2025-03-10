@@ -18,7 +18,8 @@ def hist_per_col(data, col):
     plt.xlabel('Montant des ' + col)
     plt.ylabel('Nombre de clients')
 
-    plt.show()
+    plt.savefig('fig/hist-col-' + col.lower())
+    plt.close()
 
 
 def cat_per_col(data, col):
@@ -97,14 +98,16 @@ if __name__ == '__main__':
     plt.xlabel('Première composante principale (PC1)')
     plt.ylabel('Deuxième composante principale (PC2)')
     plt.title('Projection des données sur les deux premières composantes')
-    plt.show()
+    plt.savefig('fig/pca')
+    plt.close()
 
     pca = PCA()
     pca.fit(df_scaled)
 
     plt.figure(figsize=(8, 5))
     plt.plot(range(1, len(numerical_cols) + 1), np.cumsum(pca.explained_variance_ratio_), marker='o', linestyle='--')
-    plt.xlabel("Nombre de composantes")
-    plt.ylabel("Variance expliquée cumulée")
-    plt.title("Scree plot - Choix du nombre de composantes")
-    plt.show()
+    plt.xlabel('Nombre de composantes')
+    plt.ylabel('Variance expliquée cumulée')
+    plt.title('Scree plot - Choix du nombre de composantes')
+    plt.savefig('fig/pca-var-cum')
+    plt.close()

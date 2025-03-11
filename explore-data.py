@@ -123,3 +123,7 @@ if __name__ == '__main__':
 
     numerical_dem_cols = ['MTREV', 'NBENF', 'AGEAD', 'AGEDEM', 'ADH']
     pca(demissionaires, numerical_dem_cols, 'dem')
+
+    print_sep()
+
+

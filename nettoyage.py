@@ -1,6 +1,7 @@
 import pandas as pd
+from pandas._libs.parsers import ParserError
 
-from model import Demissionaire
+from model import Demissionaire, Societaire
 
 
 def nettoie_dem(demissionaire_data):
@@ -10,7 +11,7 @@ def nettoie_dem(demissionaire_data):
         nb_enf=demissionaire_data['NBENF'],
         code_statut=demissionaire_data['CDTMT'],
         type_client=demissionaire_data['CDCATCL'],
-        adhesion_annee=pd.to_datetime(demissionaire_data['DTADH'], format='%d/%m/%Y').dt.year,
+        adhesion_annee=parse_year(demissionaire_data['DTADH']),
         dem_annee=demissionaire_data['ANNEEDEM'],
         dem_id=demissionaire_data['ID'],
         tranche_age_adhesion=demissionaire_data['RANGAGEAD'],
@@ -18,6 +19,21 @@ def nettoie_dem(demissionaire_data):
     )
 
 
-def nettoie_soc(societaires):
-    for soc in societaires:
-        pass
+def nettoie_soc(societaire_data):
+    societaire = Societaire(
+        sexe=societaire_data['CDSEXE'],
+        revenu=societaire_data['MTREV'],
+        nb_enf=societaire_data['NBENF'],
+        code_statut=societaire_data['CDTMT'],
+        type_client=societaire_data['CDCATCL'],
+        adhesion_annee=parse_year(societaire_data['DTADH']),
+        dem_annee=parse_year(societaire_data['DTDEM']),
+        dem_id=None,
+    )
+
+
+def parse_year(date_string):
+    try:
+        return pd.to_datetime(date_string, format='%d/%m/%Y').dt.year
+    except ParserError | ValueError:
+        return None

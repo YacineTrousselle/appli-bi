@@ -11,7 +11,8 @@ class Societaire:
 
 
 class Demissionaire:
-    def __init__(self, sexe, revenu, nb_enf, code_statut, type_client, adhesion_annee, dem_annee, dem_id, tranche_age_adhesion,
+    def __init__(self, sexe, revenu, nb_enf, code_statut, type_client, adhesion_annee, dem_annee, dem_id,
+                 tranche_age_adhesion,
                  tranche_age_dem):
         self.sexe = sexe
         self.revenu = revenu
@@ -23,3 +24,15 @@ class Demissionaire:
         self.dem_id = dem_id
         self.tranche_age_adhesion = tranche_age_adhesion
         self.tranche_age_dem = tranche_age_dem
+
+    def to_societaire(self) -> Societaire:
+        return Societaire(
+            sexe=self.sexe,
+            revenu=self.revenu,
+            code_statut=self.code_statut,
+            nb_enf=self.nb_enf,
+            type_client=self.type_client,
+            adhesion_annee=self.adhesion_annee,
+            dem_annee=self.dem_annee,
+            dem_id=self.dem_id
+        )

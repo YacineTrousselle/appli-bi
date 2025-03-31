@@ -43,7 +43,7 @@ def do_pca(data, numerical_cols, name, nb_components):
     pca_result = pca.fit_transform(df_scaled)
 
     return pd.DataFrame(pca_result,
-                        columns=[f'PC{comp}' for comp in range(1, nb_components)]), pca, pca_result, df_scaled
+                        columns=[f'PC{comp + 1}' for comp in range(nb_components)]), pca, pca_result, df_scaled
 
 
 def pca_2_comp(data, numerical_cols, name):
@@ -74,6 +74,12 @@ def pca_2_comp(data, numerical_cols, name):
 if __name__ == '__main__':
     demissionaires = pd.read_csv('donnees_banque/demissionaires.csv')
     societaires = pd.read_csv('donnees_banque/societaires.csv')
+
+    demissionaires = demissionaires[demissionaires['ID'] != 11468]
+    demissionaires = demissionaires[demissionaires['ID'] != 100]
+    demissionaires = demissionaires[demissionaires['ID'] != 6986]
+    demissionaires = demissionaires[demissionaires['ID'] != 9530]
+    demissionaires = demissionaires[demissionaires['ID'] != 10131]
 
     dem_columns = list(demissionaires.columns)
     soc_columns = list(societaires.columns)
@@ -127,6 +133,11 @@ if __name__ == '__main__':
     hist_per_col(societaires, 'NBENF', 'soc-')
 
     numerical_dem_cols = ['MTREV', 'NBENF', 'AGEAD', 'AGEDEM', 'ADH']
-    pca(demissionaires, numerical_dem_cols, 'dem')
+    pca_2_comp(demissionaires, numerical_dem_cols, 'dem')
 
     print_sep()
+
+    df_pca, pca, pca_result, df_scaled = do_pca(demissionaires, numerical_dem_cols, 'dem', 4)
+
+    sns.pairplot(df_pca)
+    plt.show()

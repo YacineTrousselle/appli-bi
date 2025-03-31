@@ -12,4 +12,3 @@ if __name__ == '__main__':
     all_societaires = societaires + [dem.to_societaire()  for dem in demissionaires]
 
     print(all_societaires[:10])
-

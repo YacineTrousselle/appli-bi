@@ -35,14 +35,19 @@ def cat_per_col(data, col):
     print(f'Valeurs presentes: {', '.join(categories)}')
 
 
-def pca(data, numerical_cols, name):
+def do_pca(data, numerical_cols, name, nb_components):
     scaler = StandardScaler()
     df_scaled = scaler.fit_transform(data[numerical_cols])
 
-    pca = PCA(n_components=2)
+    pca = PCA(n_components=nb_components)
     pca_result = pca.fit_transform(df_scaled)
 
-    df_pca = pd.DataFrame(pca_result, columns=['PC1', 'PC2'])
+    return pd.DataFrame(pca_result,
+                        columns=[f'PC{comp}' for comp in range(1, nb_components)]), pca, pca_result, df_scaled
+
+
+def pca_2_comp(data, numerical_cols, name):
+    df_pca, pca, pca_result, df_scaled = do_pca(data, numerical_cols, name, 2)
 
     print('Variance expliquée par chaque composante :', pca.explained_variance_ratio_)
 
@@ -125,5 +130,3 @@ if __name__ == '__main__':
     pca(demissionaires, numerical_dem_cols, 'dem')
 
     print_sep()
-
-

@@ -1,5 +1,4 @@
 import pandas as pd
-from pandas._libs.parsers import ParserError
 
 from model import Demissionaire, Societaire
 
@@ -34,6 +33,7 @@ def nettoie_soc(societaire_data):
 
 def parse_year(date_string):
     try:
-        return pd.to_datetime(date_string, format='%d/%m/%Y').dt.year
-    except BaseException:
-        return None
+        return pd.to_datetime(date_string, format='%d/%m/%Y').year
+    except BaseException as e:
+        print('Error parsing date:', date_string, e)
+        return '1900'

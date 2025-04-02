@@ -7,8 +7,22 @@ class Societaire:
         self.type_client = type_client
         self.adhesion_annee = adhesion_annee
         self.dem_annee = dem_annee
-        self.dem_id = dem_id
+        # self.dem_id = dem_id
 
+    def __str__(self):
+        return ('{'
+                f'"sexe": "{self.sexe}", '
+                f'"revenu": {self.revenu}, '
+                f'"nb_enf": {self.nb_enf}, '
+                f'"code_statut": "{self.code_statut}", '
+                f'"type_client": "{self.type_client}", '
+                f'"adhesion_annee": {self.adhesion_annee}, '
+                f'"dem_annee": {self.dem_annee}, '
+                # f'"dem_id": {self.dem_id if self.dem_id is not None else "null"}'
+                '}')
+
+    def __repr__(self):
+        return self.__str__()
 
 class Demissionaire:
     def __init__(self, sexe, revenu, nb_enf, code_statut, type_client, adhesion_annee, dem_annee, dem_id,

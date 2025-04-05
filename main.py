@@ -5,16 +5,29 @@ from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 
-from nettoyage import nettoie_dem, nettoie_soc
+from nettoyage import nettoie_dem, nettoie_soc, preprocess
+
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_colwidth', None)
 
 if __name__ == '__main__':
-    demissionaires =  pd.read_csv('donnees_banque/demissionaires.csv')
-    societaires =  pd.read_csv('donnees_banque/societaires.csv')
+    demissionaires = pd.read_csv('donnees_banque/demissionaires.csv')
+    societaires = pd.read_csv('donnees_banque/societaires.csv')
     soc = societaires.to_dict(orient='records')[0]
 
     demissionaires = [nettoie_dem(dem) for dem in demissionaires.to_dict(orient='records')]
     societaires = [nettoie_soc(soc) for soc in societaires.to_dict(orient='records')]
-    all_societaires = societaires + [dem.to_societaire()  for dem in demissionaires]
+    all_societaires = societaires + [dem.to_societaire() for dem in demissionaires]
+
+    preprocessed_societaires = preprocess(all_societaires)
+    preprocessed_societaires.to_csv('donnees_banque/preprocessed_societaires.csv', index=False)
+
+    print(preprocessed_societaires.columns)
+    print(len(preprocessed_societaires))
+    print(preprocessed_societaires.describe())
+    print(preprocessed_societaires['anciennete'])
+    exit(0)
 
     data = []
     for soc in all_societaires:

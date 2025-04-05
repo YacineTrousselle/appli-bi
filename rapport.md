@@ -189,4 +189,9 @@ ACP demissionaires
 ![pca-dem.png](fig/pca-dem.png)
 ![pca-var-cum-dem.png](fig/pca-var-cum-dem.png)
 
+___
 
+## ICI JEREMIE
+
+- Nous avons choisi de transformer les demissionnaires en societaires afin d'avoir un unique format de donnee pour les predictions.  
+- Nous n'avons conservé que certains champs de societaires. Nous avons retire les plage de valeurs, et les infos redondantes.  

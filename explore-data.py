@@ -32,7 +32,7 @@ def cat_per_col(data, col):
     for cat in cat.categories:
         categories.append(str(cat))
 
-    print(f'Valeurs presentes: {', '.join(categories)}')
+    print(f'Valeurs presentes: {", ".join(categories)}')
 
 
 def do_pca(data, numerical_cols, name, nb_components):

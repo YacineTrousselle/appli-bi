@@ -1,5 +1,6 @@
 import os
 
+import joblib
 import pandas as pd
 from matplotlib import pyplot as plt
 from sklearn import metrics
@@ -89,5 +90,10 @@ if __name__ == '__main__':
 
     plot_model_metrics(models, X_test, y_test, y_preds)
     save_classification_reports(y_test, y_preds)
+
+    os.rmdir('models')
+    os.makedirs('models')
+    for name, model in models.items():
+        joblib.dump(model, f'models/{name.replace(" ", "_").lower()}.pkl')
 
     print('FIN')

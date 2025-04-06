@@ -208,3 +208,7 @@ ___
   - a_revenu             → bool
   - anciennete           → int64
 - Graphes pour comparer les differents modeles + txt pour save les resultats
+- sauvegarde des modeles mais je sais pas comment on les utilise apres 
+- a faire (idee de chatgpt):
+  - Confusion matrix du modèle final
+  - Tuning de Random Forest avec GridSearchCV 

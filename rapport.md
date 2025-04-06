@@ -207,3 +207,4 @@ ___
   - a_demissionne        → bool
   - a_revenu             → bool
   - anciennete           → int64
+- Graphes pour comparer les differents modeles + txt pour save les resultats

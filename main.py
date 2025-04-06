@@ -42,11 +42,8 @@ def plot_model_metrics(models: dict, X_test, y_test, y_preds: dict, save_dir='fi
         plt.savefig(f"{save_dir}/{metric}_comparison.png")
         plt.close()
 
-def save_classification_reports(y_test, y_preds: dict, save_dir='fig'):
-    os.makedirs(save_dir, exist_ok=True)
-    report_path = os.path.join(save_dir, 'classification_reports.txt')
-
-    with open(report_path, 'w') as f:
+def save_classification_reports(y_test, y_preds: dict):
+    with open('classification_reports.txt', 'w') as f:
         for name, y_pred in y_preds.items():
             f.write(f"=== {name} ===\n")
             f.write(classification_report(y_test, y_pred))

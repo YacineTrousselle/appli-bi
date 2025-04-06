@@ -91,3 +91,20 @@ def preprocess(societaires: list) -> pd.DataFrame:
     df = df[df['revenu'] >= 0]
 
     return df
+
+
+def analyze_and_process(df: pd.DataFrame):
+    print('Pourcentage de démissionnaires:' + str(len(df[df['a_demissionne'] == True]) * 100 // len(df)) + '%')
+    df = upsample_non_demissionnaires(df)
+    print('Pourcentage de démissionnaires apres upsample:' + str(
+        len(df[df['a_demissionne'] == True]) * 100 // len(df)) + '%')
+
+    print(df.describe())
+
+
+def upsample_non_demissionnaires(df: pd.DataFrame) -> pd.DataFrame:
+    df_0 = df[df['a_demissionne'] == False]
+    df_1 = df[df['a_demissionne'] == True]
+    df_0_upsampled = df_0.sample(n=len(df_1), replace=True, random_state=42)
+
+    return pd.concat([df_1, df_0_upsampled])

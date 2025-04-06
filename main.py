@@ -5,7 +5,7 @@ from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 
-from nettoyage import nettoie_dem, nettoie_soc, preprocess
+from nettoyage import nettoie_dem, nettoie_soc, preprocess, analyze_and_correction, upsample_non_demissionnaires
 
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
@@ -27,6 +27,9 @@ if __name__ == '__main__':
     print(len(preprocessed_societaires))
     print(preprocessed_societaires.describe())
     print(preprocessed_societaires['anciennete'])
+
+    processed_societaires = analyze_and_correction(preprocessed_societaires)
+
     exit(0)
 
     data = []

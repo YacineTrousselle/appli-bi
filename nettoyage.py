@@ -89,6 +89,7 @@ def preprocess(societaires: list) -> pd.DataFrame:
 
     df = df.drop(columns=['dem_annee'])
     df = df[df['revenu'] >= 0]
+    df['situation_familiale'] = df['situation_familiale'].astype('category').cat.codes
 
     return df
 
@@ -100,6 +101,10 @@ def analyze_and_process(df: pd.DataFrame):
         len(df[df['a_demissionne'] == True]) * 100 // len(df)) + '%')
 
     print(df.describe())
+    for col, dtype in df.dtypes.items():
+        print(f"{col:20} → {dtype}")
+
+    return df
 
 
 def upsample_non_demissionnaires(df: pd.DataFrame) -> pd.DataFrame:

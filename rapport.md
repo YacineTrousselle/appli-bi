@@ -195,3 +195,15 @@ ___
 
 - Nous avons choisi de transformer les demissionnaires en societaires afin d'avoir un unique format de donnee pour les predictions.  
 - Nous n'avons conservé que certains champs de societaires. Nous avons retire les plage de valeurs, et les infos redondantes.  
+- Upsample des non-demissionnaires car 2x moins nombreux 
+- Colonnes du dataset et leurs types:
+  - sexe                 → int64
+  - revenu               → int64
+  - nb_enfants           → int64
+  - code_statut          → int64
+  - type_client          → int64
+  - adhesion_annee       → int64
+  - situation_familiale  → object
+  - a_demissionne        → bool
+  - a_revenu             → bool
+  - anciennete           → int64
